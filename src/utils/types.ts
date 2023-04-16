@@ -15,6 +15,7 @@ export interface Pokemon {
     total: number;
     type_one: string;
     type_two: string;
+    imageUrl: string;
 };
 
 export type RootStackParams = {
