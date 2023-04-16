@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import { colors } from './src/utils';
 import Navigator from './src/navigation/Navigator';
+import { colors } from './src/utils';
 
 const App = () => {
   return (

@@ -26,12 +26,12 @@ const PokemonDetailsBody = ({ type_one, type_two, attack, defense, hit_points, s
             <BaseText style={styles.baseStatsText}>Base Stats:</BaseText>
 
             <View style={styles.statsContainer}>
+                <PokemonStats name={'HP'} value={`${hit_points}`} />
                 <PokemonStats name={'ATK'} value={`${attack}`} />
                 <PokemonStats name={'DEF'} value={`${defense}`} />
-                <PokemonStats name={'HP'} value={`${hit_points}`} />
                 <PokemonStats name={'SPEED'} value={`${speed}`} />
-                <PokemonStats name={'SA'} value={`${special_attack}`} />
-                <PokemonStats name={'SD'} value={`${special_defense}`} />
+                <PokemonStats name={'SP.ATK'} value={`${special_attack}`} />
+                <PokemonStats name={'SP.DEF'} value={`${special_defense}`} />
             </View>
         </View>
     )

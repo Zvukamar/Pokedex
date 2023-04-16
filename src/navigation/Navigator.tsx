@@ -19,8 +19,8 @@ const Navigator = () => {
                     component={PokemonList}
                     options={{
                         title: 'Pokedex',
-                        headerStyle: { backgroundColor: colors.background },
-                        headerTitleStyle: { color: colors.white, fontSize: 20 }
+                        headerStyle: styles.headerStyle,
+                        headerTitleStyle: styles.headerTitleStyle
                     }}
                 />
 
