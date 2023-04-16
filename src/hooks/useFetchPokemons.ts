@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Alert } from 'react-native';
 import axios from 'axios';
 
 import { baseUrl } from '../utils/consts';
@@ -29,6 +30,7 @@ export const useFetchPokemons = (params: string) => {
         } catch (error) {
             console.log('Error in useFetchPokemons', { error });
             setError('something went wrong with fetching pokemons');
+            Alert.alert('something went wrong with fetching pokemons');
         } finally {
             setUninitialized(false);
             setLoading(false);

@@ -12,7 +12,7 @@ const PokemonList = () => {
     const [page, setPage] = useState(1);
 
     const { loading, result, done, uninitialized, error } = useFetchPokemons(`/?page=${page}&page_size=20`);
-    if (error) return <BaseErrorList />;
+    if (error && result.length === 0) return <BaseErrorList />;
     if (uninitialized) return <BaseLoadingIndicator />
 
     const onEndReached = () => {
@@ -31,7 +31,7 @@ const PokemonList = () => {
             onEndReachedThreshold={1}
             refreshing={loading}
             onEndReached={onEndReached}
-            ListFooterComponent={!done ? BaseLoadingIndicator : null}
+            ListFooterComponent={!done && !error ? BaseLoadingIndicator : null}
         />
     )
 }
