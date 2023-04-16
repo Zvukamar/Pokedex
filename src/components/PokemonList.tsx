@@ -4,14 +4,15 @@ import { FlatList, StyleSheet } from 'react-native';
 import PokemonItem from './PokemonItem';
 import BaseEmptyList from './common/BaseEmptyList';
 import BaseLoadingIndicator from './common/BaseLoadingIndicator';
+import BaseErrorList from './common/BaseErrorList';
 import { useFetchPokemons } from '../hooks/useFetchPokemons';
 import { colors } from '../utils';
 
 const PokemonList = () => {
     const [page, setPage] = useState(1);
 
-    const { loading, result, done, uninitialized } = useFetchPokemons(`/?page=${page}&page_size=20`);
-
+    const { loading, result, done, uninitialized, error } = useFetchPokemons(`/?page=${page}&page_size=20`);
+    if (error) return <BaseErrorList />;
     if (uninitialized) return <BaseLoadingIndicator />
 
     const onEndReached = () => {
