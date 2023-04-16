@@ -27,11 +27,7 @@ const initialState: InitialState = {
 export const pokemonSlice = createSlice({
     name: 'pokemon',
     initialState,
-    reducers: {
-        increaseCurrentPage: (state) => {
-            state.currentPage += 1;
-        }
-    },
+    reducers: {},
     extraReducers: builder => {
         builder.addCase(fetchAllPokemons.fulfilled, (state, { payload }) => {
             const { done, result } = payload;
@@ -41,9 +37,11 @@ export const pokemonSlice = createSlice({
             state.list.push(...result);
         });
         builder.addCase(fetchAllPokemons.pending, (state) => {
+            state.currentPage += 1;
             state.isFetching = true;
         });
         builder.addCase(fetchAllPokemons.rejected, (state) => {
+            state.currentPage -= 1;
             state.isFetching = false;
             state.hasError = true;
             state.uninitialized = false;
@@ -52,7 +50,7 @@ export const pokemonSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increaseCurrentPage } = pokemonSlice.actions;
+export const { } = pokemonSlice.actions;
 
 // Async actions  
 export const fetchAllPokemons = createAsyncThunk(
@@ -72,4 +70,4 @@ export const selectIsDone = (state: RootState) => state.pokemon.isDone;
 export const selectUninitialized = (state: RootState) => state.pokemon.uninitialized;
 export const selectHasError = (state: RootState) => state.pokemon.hasError;
 
-export default pokemonSlice.reducer
+export default pokemonSlice.reducer;

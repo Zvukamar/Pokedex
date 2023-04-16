@@ -5,18 +5,23 @@ import PokemonItem from './PokemonItem';
 import BaseEmptyList from './common/BaseEmptyList';
 import BaseLoadingIndicator from './common/BaseLoadingIndicator';
 import BaseErrorList from './common/BaseErrorList';
-import { useFetchPokemons } from '../hooks/useFetchPokemons';
-import { increaseCurrentPage, selectHasError, selectIsDone, selectIsFetching, selectPokemonList, selectUninitialized } from '../redux/pokemonSlice';
+import { fetchAllPokemons, selectCurrentPage, selectHasError, selectIsDone, selectIsFetching, selectPokemonList, selectUninitialized } from '../redux/pokemonSlice';
 import { colors } from '../utils';
+import { AppDispatch } from '../redux/store';
+import { useEffect } from 'react';
 
 const PokemonList = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const isFetching = useSelector(selectIsFetching);
     const pokemonList = useSelector(selectPokemonList);
     const isDone = useSelector(selectIsDone);
     const uninitialized = useSelector(selectUninitialized);
     const hasError = useSelector(selectHasError);
-    useFetchPokemons();
+    const page = useSelector(selectCurrentPage);
+    
+    useEffect(() => {
+        dispatch(fetchAllPokemons(page));
+    }, []);
 
     // Show fullscreen loader on start
     if (uninitialized) return <BaseLoadingIndicator />
@@ -26,7 +31,7 @@ const PokemonList = () => {
     if (hasError && isEmptyList) return <BaseErrorList />;
 
     const onEndReached = () => {
-        !isDone && dispatch(increaseCurrentPage());
+        !isDone && dispatch(fetchAllPokemons(page));
     }
 
     return (
