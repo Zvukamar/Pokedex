@@ -21,9 +21,7 @@ const PokemonItem = ({ item }: PokemonItemProps) => {
             activeOpacity={0.7}
             onPress={handleItemPress}
             style={styles.container}>
-            <PokemonAvatar
-                uri={`https://img.pokemondb.net/sprites/silver/normal/${item.name.toLocaleLowerCase()}.png`}
-            />
+            <PokemonAvatar uri={item.imageUrl} />
             <BaseText numberOfLines={1} style={styles.text}>#{item.number} {item.name}</BaseText>
         </TouchableOpacity>
     )

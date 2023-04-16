@@ -23,7 +23,7 @@ def fetchAllPokemons():
     items = data[start_index:end_index]
 
     for item in items:
-        item["imgUrl"] = getPokemonUrlByName(item["name"])
+        item["imageUrl"] = getPokemonUrlByName(item["name"].lower())
 
     # Create a dictionary with the "done" boolean and the "data" property
     done = len(data) < end_index

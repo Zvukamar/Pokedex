@@ -7,9 +7,10 @@ interface PokemonDetailsHeaderProps {
     number: number;
     name: string;
     generation: number;
+    imageUrl: string;
 }
 
-const PokemonDetailsHeader = ({ number, name, generation }: PokemonDetailsHeaderProps) => {
+const PokemonDetailsHeader = ({ number, name, generation, imageUrl }: PokemonDetailsHeaderProps) => {
     return (
         <View style={styles.container}>
 
@@ -19,7 +20,7 @@ const PokemonDetailsHeader = ({ number, name, generation }: PokemonDetailsHeader
             </View>
 
             <PokemonAvatar
-                uri={`https://img.pokemondb.net/sprites/silver/normal/${name.toLocaleLowerCase()}.png`}
+                uri={imageUrl}
                 style={styles.avatarImg}
             />
         </View>

@@ -10,7 +10,7 @@ interface PokemonDetailsProps {
     route: PokemonDetailsRoutePropType;
 }
 
-const PokemonDetails = ({ navigation, route }: PokemonDetailsProps) => {
+const PokemonDetails = ({ route }: PokemonDetailsProps) => {
     const { item } = route?.params;
 
     return (
@@ -19,6 +19,7 @@ const PokemonDetails = ({ navigation, route }: PokemonDetailsProps) => {
                 number={item.number}
                 name={item.name}
                 generation={item.generation}
+                imageUrl={item.imageUrl}
             />
 
             <PokemonDetailsBody
