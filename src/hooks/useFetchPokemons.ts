@@ -1,41 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Alert } from 'react-native';
-import axios from 'axios';
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { baseUrl } from '../utils/consts';
-import { Pokemon } from '../utils/types';
+import { fetchAllPokemons, selectCurrentPage } from '../redux/pokemonSlice';
+import { AppDispatch } from '../redux/store';
 
-export const useFetchPokemons = (params: string) => {
-    const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState<Pokemon[]>([]);
-    const [error, setError] = useState('');
-    const [done, setDone] = useState(false);
-    const [uninitialized, setUninitialized] = useState(true);
+export const useFetchPokemons = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const page = useSelector(selectCurrentPage);
 
     useEffect(() => {
-        fetchPokemons();
-    }, [params]);
+        dispatch(fetchAllPokemons(page))
+    }, [page]);
 
-    const fetchPokemons = async () => {
-        setLoading(true);
-        try {
-            const { data, status } = await axios.get(baseUrl + params);
-            if (status === 200) {
-                const { done, result } = data;
-                setResult(prev => [...prev, ...result]);
-                done && setDone(true);
-            } else {
-                throw new Error(`${params} - response status is not 200`);
-            }
-        } catch (error) {
-            console.log('Error in useFetchPokemons', { error });
-            setError('something went wrong with fetching pokemons');
-            Alert.alert('something went wrong with fetching pokemons');
-        } finally {
-            setUninitialized(false);
-            setLoading(false);
-        }
-    }
-
-    return { done, loading, result, error, uninitialized };
+    return null;
 }

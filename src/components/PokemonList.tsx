@@ -1,37 +1,47 @@
-import { useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux'
 
 import PokemonItem from './PokemonItem';
 import BaseEmptyList from './common/BaseEmptyList';
 import BaseLoadingIndicator from './common/BaseLoadingIndicator';
 import BaseErrorList from './common/BaseErrorList';
 import { useFetchPokemons } from '../hooks/useFetchPokemons';
+import { increaseCurrentPage, selectHasError, selectIsDone, selectIsFetching, selectPokemonList, selectUninitialized } from '../redux/pokemonSlice';
 import { colors } from '../utils';
 
 const PokemonList = () => {
-    const [page, setPage] = useState(1);
+    const dispatch = useDispatch();
+    const isFetching = useSelector(selectIsFetching);
+    const pokemonList = useSelector(selectPokemonList);
+    const isDone = useSelector(selectIsDone);
+    const uninitialized = useSelector(selectUninitialized);
+    const hasError = useSelector(selectHasError);
+    useFetchPokemons();
 
-    const { loading, result, done, uninitialized, error } = useFetchPokemons(`/?page=${page}&page_size=20`);
-    if (error && result.length === 0) return <BaseErrorList />;
+    // Show fullscreen loader on start
     if (uninitialized) return <BaseLoadingIndicator />
 
+    // Show fullscreen error on initiate error
+    const isEmptyList = pokemonList.length === 0;
+    if (hasError && isEmptyList) return <BaseErrorList />;
+
     const onEndReached = () => {
-        !done && setPage(prev => prev + 1);
+        !isDone && dispatch(increaseCurrentPage());
     }
 
     return (
         <FlatList
-            data={result}
+            data={pokemonList}
             renderItem={({ item }) => <PokemonItem item={item} />}
             style={styles.container}
             keyExtractor={({ name }) => name}
-            ListEmptyComponent={!loading ? BaseEmptyList : null}
+            ListEmptyComponent={BaseEmptyList}
             contentContainerStyle={styles.contentContainerStyle}
             numColumns={2}
             onEndReachedThreshold={1}
-            refreshing={loading}
+            refreshing={isFetching}
             onEndReached={onEndReached}
-            ListFooterComponent={!done && !error ? BaseLoadingIndicator : null}
+            ListFooterComponent={BaseLoadingIndicator}
         />
     )
 }
