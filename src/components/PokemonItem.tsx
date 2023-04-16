@@ -24,7 +24,7 @@ const PokemonItem = ({ item }: PokemonItemProps) => {
             <PokemonAvatar
                 uri={`https://img.pokemondb.net/sprites/silver/normal/${item.name.toLocaleLowerCase()}.png`}
             />
-            <BaseText>#{item.number} {item.name}</BaseText>
+            <BaseText numberOfLines={1} style={styles.text}>#{item.number} {item.name}</BaseText>
         </TouchableOpacity>
     )
 }
@@ -38,4 +38,8 @@ const styles = StyleSheet.create({
         marginBottom: 24,
         gap: 12
     },
+    text: {
+        width: 160,
+        textAlign: 'center'
+    }
 });

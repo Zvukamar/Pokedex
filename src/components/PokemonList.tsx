@@ -1,16 +1,36 @@
-import { FlatList, StyleSheet } from "react-native";
-import PokemonItem from "./PokemonItem";
-import db from '../../server/pokemon_db.json';
-import { colors } from "../utils";
+import { useState } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+
+import PokemonItem from './PokemonItem';
+import BaseEmptyList from './common/BaseEmptyList';
+import BaseLoadingIndicator from './common/BaseLoadingIndicator';
+import { useFetchPokemons } from '../hooks/useFetchPokemons';
+import { colors } from '../utils';
 
 const PokemonList = () => {
+    const [page, setPage] = useState(1);
+
+    const { loading, result, done, uninitialized } = useFetchPokemons(`/?page=${page}&page_size=20`);
+
+    if (uninitialized) return <BaseLoadingIndicator />
+
+    const onEndReached = () => {
+        !done && setPage(prev => prev + 1);
+    }
+
     return (
         <FlatList
-            data={db}
+            data={result}
             renderItem={({ item }) => <PokemonItem item={item} />}
             style={styles.container}
+            keyExtractor={({ name }) => name}
+            ListEmptyComponent={!loading ? BaseEmptyList : null}
             contentContainerStyle={styles.contentContainerStyle}
             numColumns={2}
+            onEndReachedThreshold={1}
+            refreshing={loading}
+            onEndReached={onEndReached}
+            ListFooterComponent={!done ? BaseLoadingIndicator : null}
         />
     )
 }
