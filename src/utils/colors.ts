@@ -1,3 +1,4 @@
 export default {
-    white: '#ffffff'
+    white: '#ffffff',
+    purple: '#7d73f6',
 } as const;
