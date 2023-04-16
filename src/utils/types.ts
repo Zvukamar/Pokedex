@@ -1,3 +1,6 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
+
 export interface Pokemon {
     attack: number;
     defense: number;
@@ -13,3 +16,18 @@ export interface Pokemon {
     type_one: string;
     type_two: string;
 };
+
+export type RootStackParams = {
+    PokemonList: undefined;
+    PokemonDetails: { item: Pokemon };
+};
+
+export type NavigationPropType = NativeStackNavigationProp<
+    RootStackParams,
+    'PokemonList'
+>;
+
+export type PokemonDetailsRoutePropType = RouteProp<
+    RootStackParams,
+    'PokemonDetails'
+>;

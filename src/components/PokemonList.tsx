@@ -7,7 +7,8 @@ const PokemonList = () => {
     return (
         <FlatList
             data={db}
-            renderItem={PokemonItem}
+            renderItem={({ item }) => <PokemonItem item={item} />}
+            style={styles.container}
             contentContainerStyle={styles.contentContainerStyle}
             numColumns={2}
         />
@@ -17,8 +18,11 @@ const PokemonList = () => {
 export default PokemonList;
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.background
+    },
     contentContainerStyle: {
         marginBottom: 12,
-        backgroundColor: colors.purple
+        backgroundColor: colors.background
     }
 })

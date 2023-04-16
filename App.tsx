@@ -1,14 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import PokemonList from './src/components/PokemonList';
 import { colors } from './src/utils';
+import Navigator from './src/navigation/Navigator';
 
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='auto' />
-      <PokemonList />
+      <Navigator />
     </SafeAreaView>
   );
 }
@@ -18,6 +18,6 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.purple,
+    backgroundColor: colors.background,
   },
 });
