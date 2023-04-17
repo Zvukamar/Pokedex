@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as Contacts from 'expo-contacts';
 
 import { NavigationPropType, Pokemon } from '../utils/types';
 import PokemonAvatar from './PokemonAvatar';
@@ -22,8 +23,20 @@ const PokemonItem = ({ item }: PokemonItemProps) => {
         navigation.navigate('PokemonDetails', { item });
     };
 
-    const toggleItemLikePress = () => {
+    const toggleItemLikePress = async () => {
         dispatch(togglePokemonLike(item));
+        const contact = {
+            [Contacts.Fields.ID]: item.name,
+            [Contacts.Fields.ContactType]: Contacts.ContactTypes.Person,
+            [Contacts.Fields.Name]: item.name,
+            [Contacts.Fields.FirstName]: item.name,
+            [Contacts.Fields.Note]: `This Pokemon is ${item.legendary ? '' : 'not'} LEGENDARY!`
+        };
+        try {
+            await Contacts.addContactAsync(contact);
+        } catch (error) {
+            console.log({ error })
+        }
     }
 
     return (
