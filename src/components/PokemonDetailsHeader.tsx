@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import PokemonAvatar from './PokemonAvatar';
 import BaseText from './common/BaseText';
-import { colors } from '../utils';
+import useTheme from '../hooks/useTheme';
 
 interface PokemonDetailsHeaderProps {
     number: number;
@@ -11,6 +11,9 @@ interface PokemonDetailsHeaderProps {
 }
 
 const PokemonDetailsHeader = ({ number, name, generation, imageUrl }: PokemonDetailsHeaderProps) => {
+    const theme = useTheme();
+    const styles = createStyle(theme);
+
     return (
         <View style={styles.container}>
 
@@ -29,7 +32,7 @@ const PokemonDetailsHeader = ({ number, name, generation, imageUrl }: PokemonDet
 
 export default PokemonDetailsHeader;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
     container: {
         justifyContent: 'center',
         backgroundColor: colors.white,

@@ -5,11 +5,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './TabNavigator';
 import PokemonDetails from '../components/PokemonDetails';
 import { RootStackParams } from '../utils/types';
-import { colors } from '../utils';
+import useTheme from '../hooks/useTheme';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
 const Navigator = () => {
+    const theme = useTheme();
+    const styles = createStyle(theme);
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
@@ -42,7 +45,7 @@ const Navigator = () => {
 
 export default Navigator;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
     headerStyle: {
         backgroundColor: colors.background
     },

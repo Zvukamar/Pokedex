@@ -1,42 +1,43 @@
-import colors from './colors';
+import { StyleSheet } from 'react-native';
+import { pokemonTypeColor } from './colors';
 
 export const getColorByType = (type: string) => {
     switch (type.toLowerCase()) {
         case 'fire':
-            return colors.fire;
+            return pokemonTypeColor.fire;
         case 'water':
-            return colors.water;
+            return pokemonTypeColor.water;
         case 'grass':
-            return colors.grass;
+            return pokemonTypeColor.grass;
         case 'poison':
-            return colors.poison;
+            return pokemonTypeColor.poison;
         case 'fighting':
-            return colors.fighting;
+            return pokemonTypeColor.fighting;
         case 'electric':
-            return colors.electric;
+            return pokemonTypeColor.electric;
         case 'flying':
-            return colors.flying;
+            return pokemonTypeColor.flying;
         case 'bug':
-            return colors.bug;
+            return pokemonTypeColor.bug;
         case 'ground':
-            return colors.ground;
+            return pokemonTypeColor.ground;
         case 'psychic':
-            return colors.psychic;
+            return pokemonTypeColor.psychic;
         case 'steel':
-            return colors.steel;
+            return pokemonTypeColor.steel;
         case 'fairy':
-            return colors.fairy;
+            return pokemonTypeColor.fairy;
         case 'ice':
-            return colors.ice;
+            return pokemonTypeColor.ice;
         case 'rock':
-            return colors.rock;
+            return pokemonTypeColor.rock;
         case 'dragon':
-            return colors.dragon;
+            return pokemonTypeColor.dragon;
         case 'ghost':
-            return colors.ghost;
+            return pokemonTypeColor.ghost;
         case 'dark':
-            return colors.dark;
+            return pokemonTypeColor.dark;
         default:
-            return colors.unknown;
+            return pokemonTypeColor.unknown;
     }
 }

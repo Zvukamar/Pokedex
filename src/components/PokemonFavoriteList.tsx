@@ -3,10 +3,12 @@ import { useSelector } from 'react-redux'
 
 import PokemonItem from './PokemonItem';
 import BaseEmptyList from './common/BaseEmptyList';
+import useTheme from '../hooks/useTheme';
 import { selectFavoritesList } from '../redux/pokemonSlice';
-import { colors } from '../utils';
 
 const PokemonFavoriteList = () => {
+    const theme = useTheme();
+    const styles = createStyle(theme);
     const favoritesList = useSelector(selectFavoritesList);
 
     return (
@@ -24,7 +26,7 @@ const PokemonFavoriteList = () => {
 
 export default PokemonFavoriteList;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
     container: {
         backgroundColor: colors.background
     },

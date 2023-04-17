@@ -1,5 +1,5 @@
 import { Image, ImageStyle, StyleProp, StyleSheet } from 'react-native';
-import { colors } from '../utils';
+import useTheme from '../hooks/useTheme';
 
 interface PokemonAvatarProps {
     uri: string;
@@ -7,6 +7,9 @@ interface PokemonAvatarProps {
 }
 
 const PokemonAvatar = ({ uri, style }: PokemonAvatarProps) => {
+    const theme = useTheme();
+    const styles = createStyle(theme);
+
     return (
         <Image
             style={[styles.itemImage, style]}
@@ -18,7 +21,7 @@ const PokemonAvatar = ({ uri, style }: PokemonAvatarProps) => {
 
 export default PokemonAvatar;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
     itemImage: {
         width: 140,
         height: 140,

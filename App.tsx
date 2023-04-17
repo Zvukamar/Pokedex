@@ -3,12 +3,15 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import { Provider } from 'react-redux'
 
 import Navigator from './src/navigation/Navigator';
-import { colors } from './src/utils';
+import useTheme from './src/hooks/useTheme';
 import { store } from './src/redux/store';
 
 const App = () => {
+  const theme = useTheme();
+  const style = createStyle(theme);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={style.container}>
       <StatusBar style='auto' />
       <Provider store={store}>
         <Navigator />
@@ -19,7 +22,7 @@ const App = () => {
 
 export default App;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,

@@ -4,11 +4,14 @@ import BagIcon from '../assets/BagIcon';
 import ListIcon from '../assets/ListIcon';
 import PokemonList from '../components/PokemonList';
 import PokemonFavoriteList from '../components/PokemonFavoriteList';
-import { colors } from '../utils';
+import useTheme from '../hooks/useTheme';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+    const theme = useTheme();
+    const styles = createStyle(theme);
+
     return (
         <Tab.Navigator
             screenOptions={{
@@ -37,7 +40,7 @@ const TabNavigator = () => {
 
 export default TabNavigator;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
     tabBarStyle: {
         height: 50,
         backgroundColor: colors.background

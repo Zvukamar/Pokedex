@@ -2,7 +2,7 @@ import { View, StyleSheet } from 'react-native';
 import BaseText from './common/BaseText';
 import PokemonTypeLabel from './PokemonTypeLabel';
 import PokemonStats from './PokemonStats';
-import { colors } from '../utils';
+import useTheme from '../hooks/useTheme';
 
 interface PokemonDetailsBodyProps {
     type_one: string;
@@ -16,6 +16,9 @@ interface PokemonDetailsBodyProps {
 }
 
 const PokemonDetailsBody = ({ type_one, type_two, attack, defense, hit_points, speed, special_attack, special_defense }: PokemonDetailsBodyProps) => {
+    const theme = useTheme();
+    const styles = createStyle(theme);
+
     return (
         <View style={styles.container}>
             <View style={styles.typeContainer}>
@@ -39,7 +42,7 @@ const PokemonDetailsBody = ({ type_one, type_two, attack, defense, hit_points, s
 
 export default PokemonDetailsBody;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background,

@@ -1,9 +1,9 @@
 import { View, StyleSheet } from 'react-native';
 import PokemonDetailsHeader from './PokemonDetailsHeader';
 import PokemonDetailsBody from './PokemonDetailsBody';
+import useTheme from '../hooks/useTheme';
 import { NavigationPropType } from '../utils/types';
 import { PokemonDetailsRoutePropType } from '../utils/types';
-import { colors } from '../utils';
 
 interface PokemonDetailsProps {
     navigation: NavigationPropType;
@@ -11,6 +11,9 @@ interface PokemonDetailsProps {
 }
 
 const PokemonDetails = ({ route }: PokemonDetailsProps) => {
+    const theme = useTheme();
+    const styles = createStyle(theme);
+
     const { item } = route?.params;
 
     return (
@@ -38,7 +41,7 @@ const PokemonDetails = ({ route }: PokemonDetailsProps) => {
 
 export default PokemonDetails;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background,

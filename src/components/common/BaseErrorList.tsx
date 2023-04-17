@@ -1,8 +1,11 @@
 import { View, StyleSheet } from 'react-native';
 import BaseText from './BaseText';
-import { colors } from '../../utils';
+import useTheme from '../../hooks/useTheme';
 
 const BaseErrorList = () => {
+    const theme = useTheme();
+    const styles = createStyle(theme);
+
     return (
         <View style={styles.container}>
             <BaseText>Something gone wrong! 😕</BaseText>
@@ -14,7 +17,7 @@ const BaseErrorList = () => {
 
 export default BaseErrorList;
 
-const styles = StyleSheet.create({
+const createStyle = (colors: any) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background,

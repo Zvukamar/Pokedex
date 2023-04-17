@@ -1,6 +1,4 @@
-export default {
-    white: '#ffffff',
-    background: '#2B292C',
+export const pokemonTypeColor = {
     grass: '#78c84f',
     fire: '#f08030',
     water: '#6790f0',
@@ -21,3 +19,14 @@ export default {
     dark: '#6f5848',
     unknown: '#68a090'
 } as const;
+
+export const lightTheme = {
+    white: '#ffffff',
+    background: '#2B292C',
+} as const;
+
+export const darkTheme = {
+    white: '#2B292C',
+    background: '#ffffff',
+} as const;
+
