@@ -18,7 +18,7 @@ const PokemonList = () => {
     const uninitialized = useSelector(selectUninitialized);
     const hasError = useSelector(selectHasError);
     const page = useSelector(selectCurrentPage);
-    
+
     useEffect(() => {
         dispatch(fetchAllPokemons(page));
     }, []);
@@ -37,7 +37,7 @@ const PokemonList = () => {
     return (
         <FlatList
             data={pokemonList}
-            renderItem={({ item }) => <PokemonItem item={item} />}
+            renderItem={({ item, index }) => <PokemonItem item={item} index={index} />}
             style={styles.container}
             keyExtractor={({ name }) => name}
             ListEmptyComponent={BaseEmptyList}
@@ -55,7 +55,7 @@ export default PokemonList;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.background
+        backgroundColor: colors.background,
     },
     contentContainerStyle: {
         marginBottom: 12,

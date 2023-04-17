@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { Pokemon } from '../utils/types';
 import { pokemonApi } from '../API/pokemonApi';
@@ -7,7 +7,6 @@ import { RootState } from './store';
 export interface InitialState {
     currentPage: number;
     isFetching: boolean;
-    favorites: Pokemon[];
     list: Pokemon[];
     isDone: boolean;
     hasError: boolean;
@@ -15,7 +14,6 @@ export interface InitialState {
 }
 
 const initialState: InitialState = {
-    favorites: [],
     list: [],
     isFetching: false,
     currentPage: 1,
@@ -27,13 +25,18 @@ const initialState: InitialState = {
 export const pokemonSlice = createSlice({
     name: 'pokemon',
     initialState,
-    reducers: {},
+    reducers: {
+        togglePokemonLike: (state, { payload: index }) => {
+            state.list[index].liked = !state.list[index].liked;
+        }
+    },
     extraReducers: builder => {
         builder.addCase(fetchAllPokemons.fulfilled, (state, { payload }) => {
             const { done, result } = payload;
             state.isFetching = false;
             state.uninitialized = false;
             state.isDone = done;
+            result.forEach((item: Pokemon) => item.liked = false);
             state.list.push(...result);
         });
         builder.addCase(fetchAllPokemons.pending, (state) => {
@@ -50,7 +53,7 @@ export const pokemonSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { } = pokemonSlice.actions;
+export const { togglePokemonLike } = pokemonSlice.actions;
 
 // Async actions  
 export const fetchAllPokemons = createAsyncThunk(
@@ -69,6 +72,10 @@ export const selectPokemonList = (state: RootState) => state.pokemon.list;
 export const selectIsDone = (state: RootState) => state.pokemon.isDone;
 export const selectUninitialized = (state: RootState) => state.pokemon.uninitialized;
 export const selectHasError = (state: RootState) => state.pokemon.hasError;
-export const selectFavoritesList = (state: RootState) => state.pokemon.favorites;
+
+export const selectFavoritesList = createSelector(
+    selectPokemonList,
+    list => list.filter(item => item.liked)
+);
 
 export default pokemonSlice.reducer;

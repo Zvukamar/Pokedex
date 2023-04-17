@@ -1,20 +1,18 @@
 import { FlatList, StyleSheet } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import PokemonItem from './PokemonItem';
 import BaseEmptyList from './common/BaseEmptyList';
 import { selectFavoritesList } from '../redux/pokemonSlice';
-import { AppDispatch } from '../redux/store';
 import { colors } from '../utils';
 
 const PokemonFavoriteList = () => {
-    const dispatch = useDispatch<AppDispatch>();
     const favoritesList = useSelector(selectFavoritesList);
 
     return (
         <FlatList
             data={favoritesList}
-            renderItem={({ item }) => <PokemonItem item={item} />}
+            renderItem={({ item, index }) => <PokemonItem item={item} index={index} />}
             style={styles.container}
             keyExtractor={({ name }) => name}
             ListEmptyComponent={BaseEmptyList}
