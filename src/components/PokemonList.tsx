@@ -129,6 +129,8 @@ const createStyle = (colors: any) => StyleSheet.create({
     },
     contentContainerStyle: {
         flexGrow: 1,
+        alignItems: 'center',
+        marginHorizontal: 24,
         marginBottom: 12,
         backgroundColor: colors.background
     }

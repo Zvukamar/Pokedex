@@ -27,7 +27,7 @@ export default PokemonLikeButton;
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        right: 36,
+        right: 22,
         top: 6,
     },
 });

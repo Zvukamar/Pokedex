@@ -1,6 +1,6 @@
+import { useState } from 'react';
 import { Image, ImageStyle, StyleProp, StyleSheet } from 'react-native';
 import useTheme from '../hooks/useTheme';
-import { useState } from 'react';
 
 interface PokemonAvatarProps {
     uri: string;

@@ -45,9 +45,8 @@ export default React.memo(PokemonItem);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: 'center',
-        marginVertical: 12,
+        margin: 12,
         gap: 12
     },
     text: {
