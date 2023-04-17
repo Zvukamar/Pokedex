@@ -26,7 +26,8 @@ export const pokemonSlice = createSlice({
     name: 'pokemon',
     initialState,
     reducers: {
-        togglePokemonLike: (state, { payload: index }) => {
+        togglePokemonLike: (state, { payload }) => {
+            const index = state.list.findIndex(item => item.name === payload.name);
             state.list[index].liked = !state.list[index].liked;
         }
     },

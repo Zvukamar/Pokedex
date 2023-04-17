@@ -12,10 +12,9 @@ import { togglePokemonLike } from '../redux/pokemonSlice';
 
 interface PokemonItemProps {
     item: Pokemon
-    index: number;
 }
 
-const PokemonItem = ({ item, index }: PokemonItemProps) => {
+const PokemonItem = ({ item }: PokemonItemProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const navigation = useNavigation<NavigationPropType>();
 
@@ -24,7 +23,7 @@ const PokemonItem = ({ item, index }: PokemonItemProps) => {
     };
 
     const toggleItemLikePress = () => {
-        dispatch(togglePokemonLike(index));
+        dispatch(togglePokemonLike(item));
     }
 
     return (

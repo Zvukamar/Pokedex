@@ -40,7 +40,7 @@ const PokemonList = () => {
     return (
         <FlatList
             data={pokemonList}
-            renderItem={({ item, index }) => <PokemonItem item={item} index={index} />}
+            renderItem={({ item }) => <PokemonItem item={item} />}
             style={styles.container}
             keyExtractor={({ name }) => name}
             ListEmptyComponent={BaseEmptyList}
