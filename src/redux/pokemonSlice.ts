@@ -74,4 +74,12 @@ export const selectFavoritesList = createSelector(
     list => list.filter(item => item.liked)
 );
 
+export const selectSearchResults = (results: Pokemon[]) => createSelector(
+    selectFavoritesList,
+    list => results.map(item => {
+        const isFavorite = list.find(favItem => favItem.name === item.name);
+        return { ...item, liked: !!isFavorite }
+    })
+);
+
 export default pokemonSlice.reducer;

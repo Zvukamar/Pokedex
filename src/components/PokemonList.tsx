@@ -9,7 +9,7 @@ import PokemonSearchInput from './PokemonSearchInput';
 import BaseLoadingIndicator from './common/BaseLoadingIndicator';
 import BaseErrorList from './common/BaseErrorList';
 import useTheme from '../hooks/useTheme';
-import { fetchAllPokemons, selectCurrentPage, selectHasError, selectIsDone, selectIsFetching, selectPokemonList } from '../redux/pokemonSlice';
+import { fetchAllPokemons, selectCurrentPage, selectHasError, selectIsDone, selectIsFetching, selectPokemonList, selectSearchResults } from '../redux/pokemonSlice';
 import { AppDispatch } from '../redux/store';
 import { pokemonApi } from '../API/pokemonApi';
 import { Pokemon } from '../utils/types';
@@ -29,6 +29,8 @@ const PokemonList = () => {
     const [searchValue, setSearchValue] = useState('');
     const [searchPage, setSearchPage] = useState(1);
     const [searchResult, setSearchResult] = useState<{ result: Pokemon[], done: boolean }>({ result: [], done: false })
+
+    const searchResults = useSelector(selectSearchResults(searchResult.result));
 
     const shouldClear = useRef(false);
 
@@ -63,15 +65,20 @@ const PokemonList = () => {
     ).current;
 
     const fetchPokemonByFilter = async (filter: string, page: number) => {
-        const { data } = await pokemonApi.fetchAllPokemons(page, undefined, undefined, filter);
-        const { result, done } = data;
-        setSearchResult(prev => ({
-            result: [
-                ...prev.result,
-                ...result],
-            done
-        }));
-        selectIsLoading(false);
+        try {
+            const { data } = await pokemonApi.fetchAllPokemons(page, undefined, undefined, filter);
+            const { result, done } = data;
+            setSearchResult(prev => ({
+                result: [
+                    ...prev.result,
+                    ...result],
+                done
+            }));
+        } catch (error) {
+            console.log({ error });
+        } finally {
+            selectIsLoading(false);
+        }
     }
 
     const onEndReached = () => {
@@ -97,7 +104,7 @@ const PokemonList = () => {
             {isLoading ?
                 <BaseLoadingIndicator visible /> :
                 <FlatList
-                    data={!!searchValue ? searchResult.result : pokemonList}
+                    data={!!searchValue ? searchResults : pokemonList}
                     renderItem={({ item }) => <PokemonItem item={item} />}
                     style={styles.container}
                     keyExtractor={({ name }) => name}
