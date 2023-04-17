@@ -1,19 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux'
 import useTheme from '../../hooks/useTheme';
-import { selectIsDone } from '../../redux/pokemonSlice';
 
 interface BaseLoadingIndicatorProps {
+    visible: boolean;
     size?: 'large' | 'small';
 }
 
-const BaseLoadingIndicator = ({ size = 'small' }: BaseLoadingIndicatorProps) => {
+const BaseLoadingIndicator = ({ visible, size = 'small' }: BaseLoadingIndicatorProps) => {
     const theme = useTheme();
     const styles = createStyle(theme);
-    const isDone = useSelector(selectIsDone);
 
-    if (isDone) return null;
+    if (!visible) return null;
 
     return (
         <View style={styles.container}>
@@ -29,6 +27,7 @@ const createStyle = (colors: any) => StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 24,
     }
 })

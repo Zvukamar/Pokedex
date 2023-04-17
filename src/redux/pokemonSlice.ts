@@ -10,7 +10,6 @@ export interface InitialState {
     list: Pokemon[];
     isDone: boolean;
     hasError: boolean;
-    uninitialized: boolean;
 }
 
 const initialState: InitialState = {
@@ -19,7 +18,6 @@ const initialState: InitialState = {
     currentPage: 1,
     isDone: false,
     hasError: false,
-    uninitialized: true
 };
 
 export const pokemonSlice = createSlice({
@@ -29,13 +27,12 @@ export const pokemonSlice = createSlice({
         togglePokemonLike: (state, { payload }) => {
             const index = state.list.findIndex(item => item.name === payload.name);
             state.list[index].liked = !state.list[index].liked;
-        }
+        },
     },
     extraReducers: builder => {
         builder.addCase(fetchAllPokemons.fulfilled, (state, { payload }) => {
             const { done, result } = payload;
             state.isFetching = false;
-            state.uninitialized = false;
             state.isDone = done;
             result.forEach((item: Pokemon) => item.liked = false);
             state.list.push(...result);
@@ -48,7 +45,6 @@ export const pokemonSlice = createSlice({
             state.currentPage -= 1;
             state.isFetching = false;
             state.hasError = true;
-            state.uninitialized = false;
         });
     }
 });
@@ -71,7 +67,6 @@ export const selectCurrentPage = (state: RootState) => state.pokemon.currentPage
 export const selectIsFetching = (state: RootState) => state.pokemon.isFetching;
 export const selectPokemonList = (state: RootState) => state.pokemon.list;
 export const selectIsDone = (state: RootState) => state.pokemon.isDone;
-export const selectUninitialized = (state: RootState) => state.pokemon.uninitialized;
 export const selectHasError = (state: RootState) => state.pokemon.hasError;
 
 export const selectFavoritesList = createSelector(
