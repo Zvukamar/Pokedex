@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import PokemonList from '../components/PokemonList';
+import TabNavigator from './TabNavigator';
 import PokemonDetails from '../components/PokemonDetails';
 import { RootStackParams } from '../utils/types';
 import { colors } from '../utils';
@@ -16,7 +16,7 @@ const Navigator = () => {
 
                 <Stack.Screen
                     name='PokemonList'
-                    component={PokemonList}
+                    component={TabNavigator}
                     options={{
                         title: 'Pokedex',
                         headerStyle: styles.headerStyle,
