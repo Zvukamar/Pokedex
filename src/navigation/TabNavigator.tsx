@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BagIcon from '../assets/BagIcon';
 import ListIcon from '../assets/ListIcon';
 import PokemonList from '../components/PokemonList';
+import PokemonFavoriteList from '../components/PokemonFavoriteList';
 import { colors } from '../utils';
 
 const Tab = createBottomTabNavigator();
@@ -25,11 +26,10 @@ const TabNavigator = () => {
 
             <Tab.Screen
                 name='Favorites'
-                component={PokemonList}
+                component={PokemonFavoriteList}
                 options={{
                     tabBarIcon: ({ color }) => <BagIcon fill={color} width={18} />,
                 }}
-
             />
         </Tab.Navigator>
     )

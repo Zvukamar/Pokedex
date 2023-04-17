@@ -69,5 +69,6 @@ export const selectPokemonList = (state: RootState) => state.pokemon.list;
 export const selectIsDone = (state: RootState) => state.pokemon.isDone;
 export const selectUninitialized = (state: RootState) => state.pokemon.uninitialized;
 export const selectHasError = (state: RootState) => state.pokemon.hasError;
+export const selectFavoritesList = (state: RootState) => state.pokemon.favorites;
 
 export default pokemonSlice.reducer;
