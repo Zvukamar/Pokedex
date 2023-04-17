@@ -20,7 +20,11 @@ const App = () => {
   );
 }
 
-export default App;
+export default () => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
 
 const createStyle = (colors: any) => StyleSheet.create({
   container: {

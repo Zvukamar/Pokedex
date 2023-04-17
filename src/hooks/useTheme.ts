@@ -1,12 +1,12 @@
-import { useColorScheme } from 'react-native';
-import { pokemonTypeColor, lightTheme, darkTheme } from '../utils/colors';
+import { useSelector } from 'react-redux';
+import { lightTheme, darkTheme } from '../utils/colors';
+import { selectAppTheme } from '../redux/globalSlice';
 
 const useTheme = () => {
-    const colorScheme = useColorScheme();
-    const isDark = colorScheme === 'dark';
+    const theme = useSelector(selectAppTheme);
+    const isDark = theme === 'dark';
 
     const colors = {
-        ...pokemonTypeColor,
         ...(isDark ? lightTheme : darkTheme)
     };
 

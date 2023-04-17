@@ -4,8 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import TabNavigator from './TabNavigator';
 import PokemonDetails from '../components/PokemonDetails';
-import { RootStackParams } from '../utils/types';
 import useTheme from '../hooks/useTheme';
+import ThemeChangeToggle from '../components/common/ThemeChangeToggle';
+import { RootStackParams } from '../utils/types';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 
@@ -22,6 +23,7 @@ const Navigator = () => {
                     component={TabNavigator}
                     options={{
                         title: 'Pokedex',
+                        headerRight: ThemeChangeToggle,
                         headerStyle: styles.headerStyle,
                         headerTitleStyle: styles.headerTitleStyle
                     }}
