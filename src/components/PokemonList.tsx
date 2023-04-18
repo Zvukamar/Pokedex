@@ -34,10 +34,12 @@ const PokemonList = () => {
 
     const shouldClear = useRef(false);
 
+    // Fetch data on load
     useEffect(() => {
         dispatch(fetchAllPokemons(page));
     }, []);
 
+    // Not initial load - remove the loader
     useEffect(() => {
         pokemonList.length > 0 && setIsLoading(false);
     }, [pokemonList.length])
@@ -90,19 +92,22 @@ const PokemonList = () => {
     }
 
     const onEndReached = debounce(() => {
+        // Scrolling from search list.
         if (searchValue && !searchResult.done) {
             fetchPokemonByFilter(searchValue, searchPage + 1)
             setSearchPage(prevPage => prevPage + 1);
         } else if (!isDone && !hasError) {
+            // Scroll from DEX list and there is more data to fetch
             dispatch(fetchAllPokemons(page));
         }
     }, 300);
 
+    // There is an error from API
     useEffect(() => {
         hasError && Alert.alert('Something gone wrong!')
     }, [hasError]);
 
-    // Show fullscreen error on initiate error
+    // Show fullscreen error on initiate
     const isEmptyList = pokemonList.length === 0;
     if (hasError && isEmptyList) return <BaseErrorList />;
 
