@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet, InteractionManager } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Contacts from 'expo-contacts';
@@ -23,7 +23,9 @@ const PokemonItem = ({ item }: PokemonItemProps) => {
     const contacts = useContacts();
 
     const handleItemPress = () => {
-        navigation.navigate('PokemonDetails', { item });
+        InteractionManager.runAfterInteractions(() => {
+            navigation.navigate('PokemonDetails', { item });
+        });
     };
 
     const addToContactList = async () => {

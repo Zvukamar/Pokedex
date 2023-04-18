@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { pokemonTypeColor } from './colors';
 
 export const getColorByType = (type: string) => {

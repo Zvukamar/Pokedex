@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import * as Contacts from 'expo-contacts';
 import { Alert } from 'react-native';
+import * as Contacts from 'expo-contacts';
 
 const useContacts = () => {
     const [contacts, setContacts] = useState<Contacts.Contact[]>([]);

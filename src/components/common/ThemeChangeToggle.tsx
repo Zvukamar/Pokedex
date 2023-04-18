@@ -1,8 +1,8 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
-import ToggleIcon from "../../assets/ToggleIcon";
-import { lightTheme } from "../../utils/colors";
-import { useDispatch } from "react-redux";
-import { toggleTheme } from "../../redux/globalSlice";
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+import ToggleIcon from '../../assets/ToggleIcon';
+import { lightTheme } from '../../utils/colors';
+import { toggleTheme } from '../../redux/globalSlice';
 
 const ThemeChangeToggle = () => {
     const dispatch = useDispatch();

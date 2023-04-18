@@ -1,7 +1,7 @@
-import { View, StyleSheet } from "react-native";
-import BaseText from "./common/BaseText";
-import { getColorByType } from "../utils/helpers";
-import { lightTheme } from "../utils/colors";
+import { View, StyleSheet } from 'react-native';
+import BaseText from './common/BaseText';
+import { getColorByType } from '../utils/helpers';
+import { lightTheme } from '../utils/colors';
 
 interface PokemonTypeLabelProps {
     text: string;

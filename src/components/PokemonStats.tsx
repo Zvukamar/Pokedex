@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import BaseText from "./common/BaseText";
 
 interface PokemonStatsProps {
@@ -8,11 +8,20 @@ interface PokemonStatsProps {
 
 const PokemonStats = ({ name, value }: PokemonStatsProps) => {
     return (
-        <View style={{ flexDirection: 'row' }}>
-            <BaseText style={{ width: 80 }}>{name}:</BaseText>
+        <View style={styles.container}>
+            <BaseText style={styles.name}>{name}:</BaseText>
             <BaseText>{value}</BaseText>
         </View>
-    )
+    );
 }
 
 export default PokemonStats;
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row'
+    },
+    name: {
+        width: 80
+    }
+});
