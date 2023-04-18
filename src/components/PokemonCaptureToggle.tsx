@@ -3,26 +3,31 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import EmptyHeartIcon from '../assets/EmptyHeartIcon';
 import HeartIcon from '../assets/HeartIcon';
 
-interface PokemonLikeButtonProps {
-    liked: boolean;
-    onPress: () => void;
+interface PokemonCaptureToggleProps {
+    captured: boolean;
+    onCapture: () => void;
+    onRelease: () => void;
 }
 
-const PokemonLikeButton = ({ liked, onPress }: PokemonLikeButtonProps) => {
+const PokemonCaptureToggle = ({ captured, onCapture, onRelease }: PokemonCaptureToggleProps) => {
+    const handleOnPress = () => {
+        captured ? onRelease() : onCapture();
+    }
+
     return (
         <TouchableOpacity
             hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}
             style={styles.container}
             activeOpacity={0.7}
-            onPress={onPress}>
+            onPress={handleOnPress}>
 
-            {liked ? <HeartIcon /> : <EmptyHeartIcon />}
+            {captured ? <HeartIcon /> : <EmptyHeartIcon />}
 
         </TouchableOpacity>
     )
 }
 
-export default PokemonLikeButton;
+export default PokemonCaptureToggle;
 
 const styles = StyleSheet.create({
     container: {

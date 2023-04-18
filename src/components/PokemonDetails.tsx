@@ -1,14 +1,14 @@
+import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 import PokemonDetailsHeader from './PokemonDetailsHeader';
 import PokemonDetailsBody from './PokemonDetailsBody';
 import BaseButton from './common/BaseButton';
 import useTheme from '../hooks/useTheme';
 import { NavigationPropType, Pokemon } from '../utils/types';
 import { PokemonDetailsRoutePropType } from '../utils/types';
-import { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { togglePokemonLike } from '../redux/pokemonSlice';
+import { releasePokemon, selectIsCaptured } from '../redux/pokemonSlice';
 
 interface PokemonDetailsProps {
     navigation: NavigationPropType;
@@ -17,20 +17,18 @@ interface PokemonDetailsProps {
 
 interface HeaderRightProps {
     item: Pokemon;
-    setLiked: (val: boolean) => void;
-    liked: boolean;
+    captured: boolean;
 }
 
-const HeaderRight = ({ item, setLiked, liked }: HeaderRightProps) => {
+const HeaderRight = ({ item, captured }: HeaderRightProps) => {
     const dispatch = useDispatch();
-    if (!liked) return null;
+    const handleOnPress = () => dispatch(releasePokemon(item))
+
+    if (!captured) return null;
 
     return (
         <BaseButton
-            onPress={() => {
-                dispatch(togglePokemonLike(item))
-                setLiked(false);
-            }}
+            onPress={handleOnPress}
             text='Release'
         />
     )
@@ -41,13 +39,13 @@ const PokemonDetails = ({ route }: PokemonDetailsProps) => {
     const theme = useTheme();
     const styles = createStyle(theme);
     const navigation = useNavigation();
-    const [liked, setLiked] = useState(!!item.liked);
+    const isCaptured = useSelector(selectIsCaptured(item.name));
 
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => <HeaderRight liked={liked} setLiked={setLiked} item={item} />
+            headerRight: () => <HeaderRight captured={isCaptured} item={item} />
         })
-    }, [liked]);
+    }, [isCaptured]);
 
     return (
         <View style={styles.container}>

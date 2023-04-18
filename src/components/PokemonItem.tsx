@@ -1,15 +1,15 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Contacts from 'expo-contacts';
 
 import PokemonAvatar from './PokemonAvatar';
 import BaseText from './common/BaseText';
 import useContacts from '../hooks/useContacts';
-import PokemonLikeButton from './PokemonLikeButton';
-import { useDispatch } from 'react-redux';
+import PokemonCaptureToggle from './PokemonCaptureToggle';
 import { AppDispatch } from '../redux/store';
-import { togglePokemonLike } from '../redux/pokemonSlice';
+import { capturePokemon, releasePokemon, selectIsCaptured } from '../redux/pokemonSlice';
 import { NavigationPropType, Pokemon } from '../utils/types';
 
 interface PokemonItemProps {
@@ -19,9 +19,8 @@ interface PokemonItemProps {
 const PokemonItem = ({ item }: PokemonItemProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const navigation = useNavigation<NavigationPropType>();
+    const isCaptured = useSelector(selectIsCaptured(item.name));
     const contacts = useContacts();
-
-    const liked = !!item.liked;
 
     const handleItemPress = () => {
         navigation.navigate('PokemonDetails', { item });
@@ -47,11 +46,13 @@ const PokemonItem = ({ item }: PokemonItemProps) => {
         }
     }
 
-    const toggleItemLikePress = () => {
-        dispatch(togglePokemonLike(item));
+    const handleCapturePokemon = () => {
+        dispatch(capturePokemon(item));
+        addToContactList();
+    }
 
-        // only if no liked
-        !liked && addToContactList();
+    const handleReleasePokemon = () => {
+        dispatch(releasePokemon(item));
     }
 
     return (
@@ -60,9 +61,10 @@ const PokemonItem = ({ item }: PokemonItemProps) => {
             onPress={handleItemPress}
             style={styles.container}>
             <PokemonAvatar uri={item.imageUrl} />
-            <PokemonLikeButton
-                liked={liked}
-                onPress={toggleItemLikePress}
+            <PokemonCaptureToggle
+                captured={isCaptured}
+                onCapture={handleCapturePokemon}
+                onRelease={handleReleasePokemon}
             />
             <BaseText
                 numberOfLines={1}

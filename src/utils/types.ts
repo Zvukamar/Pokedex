@@ -16,7 +16,7 @@ export interface Pokemon {
     type_one: string;
     type_two: string;
     imageUrl: string;
-    liked?: boolean;
+    captured?: boolean;
 };
 
 export type RootStackParams = {

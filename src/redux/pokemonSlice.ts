@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { Pokemon } from '../utils/types';
 import { pokemonApi } from '../API/pokemonApi';
@@ -10,6 +10,7 @@ export interface InitialState {
     list: Pokemon[];
     isDone: boolean;
     hasError: boolean;
+    capturedList: { [key: string]: Pokemon; };
 }
 
 const initialState: InitialState = {
@@ -18,23 +19,25 @@ const initialState: InitialState = {
     currentPage: 1,
     isDone: false,
     hasError: false,
+    capturedList: {}
 };
 
 export const pokemonSlice = createSlice({
     name: 'pokemon',
     initialState,
     reducers: {
-        togglePokemonLike: (state, { payload }) => {
-            const index = state.list.findIndex(item => item.name === payload.name);
-            state.list[index].liked = !state.list[index].liked;
+        capturePokemon: (state, { payload: pokemon }: PayloadAction<Pokemon>) => {
+            state.capturedList[pokemon.name] = { ...pokemon, captured: true };
         },
+        releasePokemon: (state, { payload: pokemon }: PayloadAction<Pokemon>) => {
+            delete state.capturedList[pokemon.name];
+        }
     },
     extraReducers: builder => {
         builder.addCase(fetchAllPokemons.fulfilled, (state, { payload }) => {
             const { done, result } = payload;
             state.isFetching = false;
             state.isDone = done;
-            result.forEach((item: Pokemon) => item.liked = false);
             state.list.push(...result);
         });
         builder.addCase(fetchAllPokemons.pending, (state) => {
@@ -50,7 +53,7 @@ export const pokemonSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { togglePokemonLike } = pokemonSlice.actions;
+export const { capturePokemon, releasePokemon } = pokemonSlice.actions;
 
 // Async actions  
 export const fetchAllPokemons = createAsyncThunk(
@@ -70,16 +73,18 @@ export const selectIsDone = (state: RootState) => state.pokemon.isDone;
 export const selectHasError = (state: RootState) => state.pokemon.hasError;
 
 export const selectFavoritesList = createSelector(
-    selectPokemonList,
-    list => list.filter(item => item.liked)
+    (state: RootState) => state.pokemon.capturedList,
+    list => Object.values(list)
 );
 
 export const selectSearchResults = (results: Pokemon[]) => createSelector(
-    selectFavoritesList,
-    list => results.map(item => {
-        const isFavorite = list.find(favItem => favItem.name === item.name);
-        return { ...item, liked: !!isFavorite }
-    })
+    (state: RootState) => state.pokemon.capturedList,
+    list => results.map(item => ({ ...item, captured: !!list[item.name] }))
+);
+
+export const selectIsCaptured = (name: string) => createSelector(
+    (state: RootState) => state.pokemon.capturedList,
+    list => !!list[name]
 );
 
 export default pokemonSlice.reducer;
