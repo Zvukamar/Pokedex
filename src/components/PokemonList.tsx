@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { Alert, FlatList, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
 import { debounce } from 'lodash';
 
@@ -55,10 +55,12 @@ const PokemonList = () => {
             onClearResult();
         }
 
+        // typing in search
         if (text) {
             setIsLoading(true);
             debouncedChangeText(text);
         } else {
+            // clear the text
             setIsLoading(false);
         }
     }
@@ -91,10 +93,14 @@ const PokemonList = () => {
         if (searchValue && !searchResult.done) {
             fetchPokemonByFilter(searchValue, searchPage + 1)
             setSearchPage(prevPage => prevPage + 1);
-        } else if (!isDone) {
+        } else if (!isDone && !hasError) {
             dispatch(fetchAllPokemons(page));
         }
     }, 300);
+
+    useEffect(() => {
+        hasError && Alert.alert('Something gone wrong!')
+    }, [hasError]);
 
     // Show fullscreen error on initiate error
     const isEmptyList = pokemonList.length === 0;
@@ -120,7 +126,7 @@ const PokemonList = () => {
                     onEndReachedThreshold={0.5}
                     refreshing={isFetching}
                     onEndReached={onEndReached}
-                    ListFooterComponent={() => <BaseLoadingIndicator visible={(!searchValue && !isDone) || (searchResult.result.length > 0 && !searchResult.done)} />}
+                    ListFooterComponent={() => <BaseLoadingIndicator visible={!hasError && (!searchValue && !isDone) || (searchResult.result.length > 0 && !searchResult.done)} />}
                 />
             }
         </>
