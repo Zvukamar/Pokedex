@@ -3,13 +3,14 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Contacts from 'expo-contacts';
 
-import { NavigationPropType, Pokemon } from '../utils/types';
 import PokemonAvatar from './PokemonAvatar';
 import BaseText from './common/BaseText';
+import useContacts from '../hooks/useContacts';
 import PokemonLikeButton from './PokemonLikeButton';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../redux/store';
 import { togglePokemonLike } from '../redux/pokemonSlice';
+import { NavigationPropType, Pokemon } from '../utils/types';
 
 interface PokemonItemProps {
     item: Pokemon
@@ -18,25 +19,39 @@ interface PokemonItemProps {
 const PokemonItem = ({ item }: PokemonItemProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const navigation = useNavigation<NavigationPropType>();
+    const contacts = useContacts();
+
+    const liked = !!item.liked;
 
     const handleItemPress = () => {
         navigation.navigate('PokemonDetails', { item });
     };
 
-    const toggleItemLikePress = async () => {
-        dispatch(togglePokemonLike(item));
-        const contact = {
-            [Contacts.Fields.ID]: item.name,
-            [Contacts.Fields.ContactType]: Contacts.ContactTypes.Person,
-            [Contacts.Fields.Name]: item.name,
-            [Contacts.Fields.FirstName]: item.name,
-            [Contacts.Fields.Note]: `This Pokemon is ${item.legendary ? '' : 'not'} LEGENDARY!`
-        };
-        try {
-            await Contacts.addContactAsync(contact);
-        } catch (error) {
-            console.log({ error })
+    const addToContactList = async () => {
+        const name = `#${item.number} ${item.name}`;
+        const pokemon = contacts.find(contact => contact.name === name);
+        // Not yet in contacts list
+        if (!pokemon) {
+            const contact = {
+                [Contacts.Fields.ID]: name,
+                [Contacts.Fields.ContactType]: Contacts.ContactTypes.Person,
+                [Contacts.Fields.Name]: name,
+                [Contacts.Fields.FirstName]: name,
+                [Contacts.Fields.Note]: `This Pokemon is ${item.legendary ? '' : 'not'} LEGENDARY!`
+            };
+            try {
+                await Contacts.addContactAsync(contact);
+            } catch (error) {
+                console.log({ error })
+            }
         }
+    }
+
+    const toggleItemLikePress = () => {
+        dispatch(togglePokemonLike(item));
+
+        // only if no liked
+        !liked && addToContactList();
     }
 
     return (
@@ -46,10 +61,15 @@ const PokemonItem = ({ item }: PokemonItemProps) => {
             style={styles.container}>
             <PokemonAvatar uri={item.imageUrl} />
             <PokemonLikeButton
-                liked={!!item.liked}
+                liked={liked}
                 onPress={toggleItemLikePress}
             />
-            <BaseText numberOfLines={1} style={styles.text}>#{item.number} {item.name}</BaseText>
+            <BaseText
+                numberOfLines={1}
+                style={styles.text}
+            >
+                #{item.number} {item.name}
+            </BaseText>
         </TouchableOpacity>
     )
 }
