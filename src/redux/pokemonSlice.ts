@@ -72,7 +72,7 @@ export const selectPokemonList = (state: RootState) => state.pokemon.list;
 export const selectIsDone = (state: RootState) => state.pokemon.isDone;
 export const selectHasError = (state: RootState) => state.pokemon.hasError;
 
-export const selectFavoritesList = createSelector(
+export const selectCapturedsList = createSelector(
     (state: RootState) => state.pokemon.capturedList,
     list => Object.values(list)
 );

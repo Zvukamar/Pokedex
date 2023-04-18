@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ListIcon from '../assets/ListIcon';
 import PokemonList from '../components/PokemonList';
-import PokemonFavoriteList from '../components/PokemonFavoriteList';
+import PokemonCapturedList from '../components/PokemonCapturedList';
 import useTheme from '../hooks/useTheme';
 import CapturedIcon from '../assets/CapturedIcon';
 
@@ -30,7 +30,7 @@ const TabNavigator = () => {
 
             <Tab.Screen
                 name='Captured'
-                component={PokemonFavoriteList}
+                component={PokemonCapturedList}
                 options={{
                     tabBarIcon: ({ color }) => <CapturedIcon fill={color} width={18} />,
                 }}

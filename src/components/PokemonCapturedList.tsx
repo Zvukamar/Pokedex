@@ -4,16 +4,16 @@ import { useSelector } from 'react-redux'
 import PokemonItem from './PokemonItem';
 import BaseEmptyList from './common/BaseEmptyList';
 import useTheme from '../hooks/useTheme';
-import { selectFavoritesList } from '../redux/pokemonSlice';
+import { selectCapturedsList } from '../redux/pokemonSlice';
 
-const PokemonFavoriteList = () => {
+const PokemonCapturedList = () => {
     const theme = useTheme();
     const styles = createStyle(theme);
-    const favoritesList = useSelector(selectFavoritesList);
+    const capturedList = useSelector(selectCapturedsList);
 
     return (
         <FlatList
-            data={favoritesList}
+            data={capturedList}
             renderItem={({ item }) => <PokemonItem item={item} />}
             style={styles.container}
             keyExtractor={({ name }) => name}
@@ -24,7 +24,7 @@ const PokemonFavoriteList = () => {
     )
 }
 
-export default PokemonFavoriteList;
+export default PokemonCapturedList;
 
 const createStyle = (colors: any) => StyleSheet.create({
     container: {

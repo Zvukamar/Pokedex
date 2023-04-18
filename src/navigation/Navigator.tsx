@@ -34,6 +34,7 @@ const Navigator = () => {
                     component={PokemonDetails}
                     options={{
                         title: '',
+                        headerTintColor: theme.white,
                         headerBackTitle: '',
                         headerStyle: styles.headerStyle,
                         headerTitleStyle: styles.headerTitleStyle
