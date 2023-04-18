@@ -1,6 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import BaseText from "./common/BaseText";
 import { getColorByType } from "../utils/helpers";
+import { lightTheme } from "../utils/colors";
 
 interface PokemonTypeLabelProps {
     text: string;
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     text: {
-        textAlign: 'center'
+        textAlign: 'center',
+        color: lightTheme.white
     }
 })
