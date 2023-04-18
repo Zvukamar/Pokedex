@@ -17,7 +17,8 @@ const TabNavigator = () => {
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: styles.tabBarStyle,
-                tabBarLabelStyle: styles.tabBarLabelStyle
+                tabBarLabelStyle: styles.tabBarLabelStyle,
+                tabBarHideOnKeyboard: true
             }}>
             <Tab.Screen
                 name='DEX'
