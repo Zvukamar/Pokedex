@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route('/')
 def fetchAllPokemons():
     # Get the page number and page size from the query parameters
-    filterArg = request.args.get('filter', '')
+    filterArg = request.args.get('filter', '').lower()
     page = request.args.get('page', 1, type=int)
     page_size = request.args.get('page_size', 10, type=int)
     sort_order = request.args.get('sort_order', 'asc')
@@ -19,7 +19,7 @@ def fetchAllPokemons():
 
     if filterArg:
         # Perform a filter using the filterArg from query
-        data = [pokemon for pokemon in data if filterArg in pokemon['type_one'] or filterArg in pokemon['type_two']]
+        data = [pokemon for pokemon in data if filterArg in pokemon['type_one'].lower() or filterArg in pokemon['type_two'].lower()]
 
     # Sort the items based on the 'number' key
     data = sorted(data, key=lambda x: x['number'], reverse=(sort_order == 'desc'))
