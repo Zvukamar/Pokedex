@@ -25,7 +25,7 @@ const PokemonList = () => {
     const hasError = useSelector(selectHasError);
     const page = useSelector(selectCurrentPage);
 
-    const [isLoading, selectIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
     const [searchPage, setSearchPage] = useState(1);
     const [searchResult, setSearchResult] = useState<{ result: Pokemon[], done: boolean }>({ result: [], done: false })
@@ -37,6 +37,10 @@ const PokemonList = () => {
     useEffect(() => {
         dispatch(fetchAllPokemons(page));
     }, []);
+
+    useEffect(() => {
+        pokemonList.length > 0 && setIsLoading(false);
+    }, [pokemonList.length])
 
     const onClearResult = () => {
         setSearchResult({ result: [], done: false });
@@ -52,8 +56,10 @@ const PokemonList = () => {
         }
 
         if (text) {
-            selectIsLoading(true);
+            setIsLoading(true);
             debouncedChangeText(text);
+        } else {
+            setIsLoading(false);
         }
     }
 
@@ -77,18 +83,18 @@ const PokemonList = () => {
         } catch (error) {
             console.log({ error });
         } finally {
-            selectIsLoading(false);
+            setIsLoading(false);
         }
     }
 
-    const onEndReached = () => {
+    const onEndReached = debounce(() => {
         if (searchValue && !searchResult.done) {
             fetchPokemonByFilter(searchValue, searchPage + 1)
             setSearchPage(prevPage => prevPage + 1);
         } else if (!isDone) {
             dispatch(fetchAllPokemons(page));
         }
-    }
+    }, 300);
 
     // Show fullscreen error on initiate error
     const isEmptyList = pokemonList.length === 0;
@@ -102,7 +108,7 @@ const PokemonList = () => {
             />
 
             {isLoading ?
-                <BaseLoadingIndicator visible /> :
+                <BaseLoadingIndicator fullscreen visible /> :
                 <FlatList
                     data={!!searchValue ? searchResults : pokemonList}
                     renderItem={({ item }) => <PokemonItem item={item} />}
@@ -111,7 +117,7 @@ const PokemonList = () => {
                     ListEmptyComponent={BaseEmptyList}
                     contentContainerStyle={styles.contentContainerStyle}
                     numColumns={2}
-                    onEndReachedThreshold={1}
+                    onEndReachedThreshold={0.5}
                     refreshing={isFetching}
                     onEndReached={onEndReached}
                     ListFooterComponent={() => <BaseLoadingIndicator visible={(!searchValue && !isDone) || (searchResult.result.length > 0 && !searchResult.done)} />}
