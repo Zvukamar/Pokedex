@@ -77,11 +77,6 @@ export const selectFavoritesList = createSelector(
     list => Object.values(list)
 );
 
-export const selectSearchResults = (results: Pokemon[]) => createSelector(
-    (state: RootState) => state.pokemon.capturedList,
-    list => results.map(item => ({ ...item, captured: !!list[item.name] }))
-);
-
 export const selectIsCaptured = (name: string) => createSelector(
     (state: RootState) => state.pokemon.capturedList,
     list => !!list[name]

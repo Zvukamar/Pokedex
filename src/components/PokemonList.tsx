@@ -9,7 +9,7 @@ import PokemonSearchInput from './PokemonSearchInput';
 import BaseLoadingIndicator from './common/BaseLoadingIndicator';
 import BaseErrorList from './common/BaseErrorList';
 import useTheme from '../hooks/useTheme';
-import { fetchAllPokemons, selectCurrentPage, selectHasError, selectIsDone, selectIsFetching, selectPokemonList, selectSearchResults } from '../redux/pokemonSlice';
+import { fetchAllPokemons, selectCurrentPage, selectHasError, selectIsDone, selectIsFetching, selectPokemonList } from '../redux/pokemonSlice';
 import { AppDispatch } from '../redux/store';
 import { pokemonApi } from '../API/pokemonApi';
 import { Pokemon } from '../utils/types';
@@ -30,7 +30,7 @@ const PokemonList = () => {
     const [searchPage, setSearchPage] = useState(1);
     const [searchResult, setSearchResult] = useState<{ result: Pokemon[], done: boolean }>({ result: [], done: false })
 
-    const searchResults = useSelector(selectSearchResults(searchResult.result));
+    const searchResults = searchResult.result;
 
     const shouldClear = useRef(false);
 
